@@ -1,0 +1,24 @@
+#!/bin/bash
+echo "PUT JSON AROUND HERE SOMEWHERE LIKE AS A BLOCK"
+array=()
+while IFS= read -r -p "" url; do
+    [[ $url ]] || break
+    array+=("$url")
+done
+
+grab=$(printf ' %s\n' "${array[@]}")
+printf "%`tput cols`s"|tr ' ' '-';
+echo
+echo
+
+#write array into plain text
+for i in $(echo $grab); do echo "$i" >> json.txt; done
+
+cat json.txt | sed -e ':a' -e 'N' -e '$!ba' -e 's/\n/ /g' >> json2.txt
+
+cat json2.txt | sed 's/{//g; s/:/: /g; s/;//g; s/echo//g; s/}//g; s/"//g; s/,/\
+/g;' 
+
+
+rm json.txt
+rm json2.txt
