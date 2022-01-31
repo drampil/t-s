@@ -5,6 +5,11 @@
 ██║  ██║███████╗██║  ██║██████╔╝    ██║ ╚═╝ ██║███████╗
 ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝╚═════╝     ╚═╝     ╚═╝╚══════╝
                                                        
+INSTALL:
+git clone https://github.com/drampil/t-s
+chmod +x *
+mv * ../
+
 No API keys included. Please supply them yourselves or from your management team.
 
 Place urlscan.io key in urlscankey.txt
