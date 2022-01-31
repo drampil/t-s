@@ -1,0 +1,32 @@
+#!/bin/bash
+echo
+echo -e "████████╗██████╗  █████╗  ██████╗███████╗██████╗ "
+echo -e "╚══██╔══╝██╔══██╗██╔══██╗██╔════╝██╔════╝██╔══██╗"
+echo -e "   ██║   ██████╔╝███████║██║     █████╗  ██████╔╝"
+echo -e "   ██║   ██╔══██╗██╔══██║██║     ██╔══╝  ██╔══██╗"
+echo -e "   ██║   ██║  ██║██║  ██║╚██████╗███████╗██║  ██║"
+echo -e "   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝╚══════╝╚═╝  ╚═╝"
+       
+echo "Render block of URLs into IP addresses."
+echo
+
+array=()
+while IFS= read -r -p "" url; do
+    [[ $url ]] || break
+    array+=("$url")
+done
+
+grab=$(printf ' %s\n' "${array[@]}")
+printf "%`tput cols`s"|tr ' ' '-';
+echo
+echo
+for i in $(echo $grab); do echo "$i";
+echo $i | grep -oE -m1 '[-+[:alnum:]]+[.][[:alnum:]+_.-]+' | sed 's/www.//' | head -1 > urledit.txt
+domain=$(<urledit.txt)
+echo "$(dig $domain +short)"
+rm urledit.txt
+echo; done
+
+printf "%`tput cols`s"|tr ' ' '-';
+echo
+echo "Done!"
