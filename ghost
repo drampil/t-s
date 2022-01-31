@@ -1,0 +1,41 @@
+#!/bin/bash
+echo
+echo -e " ██████╗ ██╗  ██╗ ██████╗ ███████╗████████╗"
+echo -e "██╔════╝ ██║  ██║██╔═══██╗██╔════╝╚══██╔══╝"
+echo -e "██║  ███╗███████║██║   ██║███████╗   ██║   "
+echo -e "██║   ██║██╔══██║██║   ██║╚════██║   ██║   "
+echo -e "╚██████╔╝██║  ██║╚██████╔╝███████║   ██║   "
+echo -e " ╚═════╝ ╚═╝  ╚═╝ ╚═════╝ ╚══════╝   ╚═╝   "
+                                          
+
+echo
+echo "Check the hosts of an IP address list."
+echo "One entry per line, Ubuntu Machines do not render summary."
+echo "> To initiate press enter twice."
+echo "---"
+
+array=()
+while IFS= read -r -p "" url; do
+    [[ $url ]] || break
+    array+=("$url")
+done
+
+grab=$(printf ' %s\n' "${array[@]}")
+printf "%`tput cols`s"|tr ' ' '-';
+echo
+echo
+for i in $(echo $grab); do echo "$i";
+echo "$(whois $i | grep -m 1 'OrgName\|org-name\|mnt-by\|person' | awk {'print $2'})"
+adder=$(whois $i | grep -m 1 'Amazon' | awk {'print $2'})
+echo $i "-" $adder >> ipadder.txt
+echo; done
+
+printf "%`tput cols`s"|tr ' ' '-';
+echo
+echo "Done!"
+echo
+
+echo "IP's that Resolve to Amazon"
+cat ipadder.txt | grep 'Amazon' | awk {'print $1'}
+rm ipadder.txt
+echo
